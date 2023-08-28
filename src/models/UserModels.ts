@@ -1,5 +1,5 @@
 import database from '../database/database'
-import { IDataCreate } from '../interfaces/interfaces'
+import { IDataCreate, IUpdateUser } from '../interfaces/interfaces'
 
 class UserModels {
   public async createUser({ name, lastName, email, password }) {
@@ -44,6 +44,26 @@ class UserModels {
     return {
       user,
     }
+  }
+
+  public async updateUser({ name, lastName, email, password }) {
+    if (!name || !lastName || !email || !password)
+      return { invalid: `Suas Credenciais de Atualização não foram passadas corretamente!` }
+
+    const userUpdate = await database
+      .table('users')
+      .where({ email })
+      .update({ name: name, lastName: lastName, password: password })
+
+    if (userUpdate === 0) return { message: `Usuário não existe!` }
+
+    const user: IUpdateUser[] = await database
+      .select(['id', 'name', 'lastName', 'email'])
+      .table('users')
+      .where({ email })
+
+    console.log(user)
+    return { user }
   }
 }
 
