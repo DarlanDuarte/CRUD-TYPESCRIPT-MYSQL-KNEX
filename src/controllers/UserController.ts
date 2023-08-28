@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import database from '../database/connection'
+import database from '../database/database'
 import UserModels from '../models/UserModels'
 
 class UserController {

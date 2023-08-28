@@ -1,4 +1,4 @@
-import database from '../database/connection'
+import database from '../database/database'
 import { IDataCreate } from '../interfaces/interfaces'
 
 class UserModels {
@@ -23,7 +23,7 @@ class UserModels {
         data,
       }
     } catch (e: any) {
-      throw new Error(`Error: Algo deu Errado!`, e.message)
+      throw new Error(`Error: Algo deu Errado!`)
     }
   }
 
