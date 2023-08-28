@@ -18,6 +18,31 @@ class UserController {
       return res.status(500).json({ error: `Error interno no servidor` })
     }
   }
+
+  public async getUsers(req: Request, res: Response) {
+    try {
+      const users = await UserModels.getUsers()
+
+      return res.status(200).json(users)
+    } catch (e: any) {
+      return res.status(500).json({ error: `Error interno no Servidor` })
+    }
+  }
+
+  public async deleteUser(req: Request, res: Response) {
+    try {
+      const { id } = req.params
+
+      const result = await UserModels.deleteUser({ id })
+
+      if (result.invalid) return res.status(400).json(result.invalid)
+      if (result.msg) return res.status(400).json(result.msg)
+
+      return res.status(200).json({ message: `Usuário Deletado com sucesso!` })
+    } catch (e: any) {
+      return res.status(500).json({ message: `Error interno no Servidor` })
+    }
+  }
 }
 
 export default new UserController()

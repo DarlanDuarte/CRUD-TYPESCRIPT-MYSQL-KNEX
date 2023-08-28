@@ -26,6 +26,25 @@ class UserModels {
       throw new Error(`Error: Algo deu Errado!`, e.message)
     }
   }
+
+  public async getUsers() {
+    const users = await database.select(['name', 'lastName', 'email']).table('users')
+    return {
+      users,
+    }
+  }
+
+  public async deleteUser({ id }) {
+    if (!id) return { invalid: `Usuário não foi passado` }
+
+    const user = await database.table('users').where({ id }).del()
+
+    if (user !== 1) return { msg: `Usuário não existe!` }
+
+    return {
+      user,
+    }
+  }
 }
 
 export default new UserModels()
